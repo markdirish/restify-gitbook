@@ -6,7 +6,7 @@ One of the first exercises taught to those interested in making a server is usua
 var restify = require('restify');
 var server = restify.createServer();
 
-// add a user to the database
+// Return the received name back to the client
 server.get('/echo/:name', async function(req, res, next) {
   res.send("Hello, " + req.params.name);
   return next();
@@ -33,6 +33,7 @@ var client = clients.createJsonClient({
   version: '~1.0'
 });
  
+ // pass in 'mark' to the echo server, expecting "Hello, mark" to be returned
 client.get('/echo/mark', function (err, req, res, obj) {
   if (err) console.error(err);
   console.log('Server returned: %j', obj);
