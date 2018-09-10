@@ -1,9 +1,3 @@
----
-description: >-
-  Create a simple system to add books to a library catalog using your IBM i and
-  its DB2 database.
----
-
 # Tutorial 2: REST APIs and the IBM i
 
 ## Setup
@@ -21,15 +15,11 @@ cd tutorial2`
 
 In the **tutorial2** directory, we are going to create two files: **tutorial2-server.js** and **tutorial2-client.js**. The code for these files is given below. 
 
-{% hint style="info" %}
 There are two changes you need to make for your server to run correctly:
 
 1. On line 12 of tutorial2-server.js, change the SCHEMA constant to be the name of your DB2 SCHEMA.
 2. On line 4 of tutorial2-client.js, change the beginning of the URL to be the URL to your IBM i machine.
-{% endhint %}
 
-{% code-tabs %}
-{% code-tabs-item title="tutorial2-server.js" %}
 ```javascript
 let restify = require('restify');
 let errors = require('restify-errors');
@@ -123,11 +113,7 @@ server.listen(3030, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
-{% code-tabs %}
-{% code-tabs-item title="tutorial2-client.js" %}
 ```javascript
 var clients = require('restify-clients');
 
@@ -147,8 +133,6 @@ client.post('/books/', { title: 'Foundation', author: "Isaac Asimov" }, function
     });
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 ## Running the Tutorial
 
@@ -258,4 +242,3 @@ Our other endpoint is server.get\('/books/:id', ...\) where we check to see if t
 And that's it! With these two endpoints, we can add and retrieve books from our DB2 database. We call these endpoints with our client, which uses the restify-clients package. First we call the POST method on /books/ to add Foundation by Isaac Asimov. When the result from that action returns, we call our GET method to ensure that the data was added correctly. This POST/GET pattern is a common one for REST APIs, and is a good way to check that the object you sent to the server was added correctly.
 
 This tutorial showed you how to access your DB2 database with an API you created using restify. In the next tutorial, we will look at how to secure our endpoints with an authentication scheme, ensuring that not just anyone can add books to our list.
-
