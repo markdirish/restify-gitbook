@@ -1,13 +1,7 @@
----
-description: Learn how to make simple REST endpoints for your Node.js server using Restify
----
-
 # Tutorial 1: Simple REST API Endpoints
 
 One of the first exercises taught to those interested in making a server is usually to create an echo server. Our echo server will use restify to capture a parameter passed through the URL, and return that parameter with a simple messages. Create a file named **echo-server.js** and copy the following code:
 
-{% code-tabs %}
-{% code-tabs-item title="echo-server.js" %}
 ```javascript
 var restify = require('restify');
 var server = restify.createServer();
@@ -22,8 +16,6 @@ server.listen(8080, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 Using restify, we create a single endpoint '/echo/:name', where :name is a parameter passed through the URI. To run the server, simply open a terminal in your project's directory and run:
 
@@ -33,8 +25,6 @@ You should see something similar to `restify listening at http://[::]:8080` as a
 
 Of course, APIs can be accessed by more than just a browser. Create another file called **echo-client.js** and copy the following code:
 
-{% code-tabs %}
-{% code-tabs-item title="echo-client.js" %}
 ```javascript
 var clients = require('restify-clients');
  
@@ -48,14 +38,12 @@ client.get('/echo/mark', function (err, req, res, obj) {
   console.log('Server returned: %j', obj);
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
-Note, we are requiring another package to run our client called 'restify-clients'. To get it, simply run
+Note, we are requiring another package to run our client called 'restify-clients'. To install it in your project, simply run
 
 `npm install restify-clients --save`
 
-Now make sure your echoserver is still running. In a new terminal, navigate to the same directory and run 
+Make sure your echoserver is still running. In a new terminal, navigate to the same directory and run 
 
 `node echo-client.js`
 
