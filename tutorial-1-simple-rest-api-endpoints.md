@@ -49,4 +49,3 @@ Make sure your echoserver is still running. In a new terminal, navigate to the s
 `node echo-client.js`
 
 You should see a message in the terminal of "Server returned: "Hello, mark"". Our client worked! Notice that because our client is on the same machine as the server, we can just call localhost:8080 instead of the URL to our IBM i. Clients are a great way for your front end code to retrieve data from your back-end server, thereby programatically using your API!
-
