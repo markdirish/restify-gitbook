@@ -1,7 +1,3 @@
----
-description: Setting up your restify project.
----
-
 # Getting Started
 
 **Restify** is a powerful framework for creating simple and fast REST APIs for use with Node.js. In this series of tutorials, we will look at how to create a simple REST API to add books to a list, and then query from that list. We we also secure our API endpoints with an API key so that they are secure from unauthorized access. Because these tutorials are intended for users of the IBM i, our database of choice will the DB2 database at the heart of the i. 
@@ -24,8 +20,6 @@ And that's it! You are all ready to start creating a REST API on your IBM i.
 
 If you would like to set up your entire environment now and not worry about installing packages as we go, you can overwrite or create a **packages.json** file with the following code.  Then run `npm install` and all of the packages used will be available to you. With this setup, you can ignore all npm install commands in the following tutorials.
 
-{% code-tabs %}
-{% code-tabs-item title="packages.json" %}
 ```javascript
 {
   "name": "restify-tutorial",
@@ -50,8 +44,6 @@ If you would like to set up your entire environment now and not worry about inst
   }
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 
 
