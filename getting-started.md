@@ -2,7 +2,11 @@
 
 **Restify** is a powerful framework for creating simple and fast REST APIs for use with Node.js. In this series of tutorials, we will look at how to create a simple REST API to add books to a list, and then query from that list. We we also secure our API endpoints with an API key so that they are secure from unauthorized access. Because these tutorials are intended for users of the IBM i, our database of choice will the DB2 database at the heart of the i. 
 
-This tutorial assumes that you already have **Node.js** installed on your IBM i. If that is not the case, please refer to the Node.js tutorial at [https://testdemogitbook.gitbook.io/node-js/](https://testdemogitbook.gitbook.io/node-js/). 
+This tutorial assumes that you already have **Node.js** installed on your IBM i. If that is not the case, please download Node.js onto your system by running:
+
+```bash
+yum install nodejs
+```
 
 The source code for this project can be cloned or downloaded [here](https://bitbucket.org/litmis/nodejs/src/d6644e5ee3b54780b2fc9ffc8e74a3a01da1e614/examples/restify/?at=master). Once obtained simply run `npm install` within the project root to install the required node modules. Or continue following along to setup your project manually.
 
@@ -44,8 +48,3 @@ If you would like to set up your entire environment now and not worry about inst
   }
 }
 ```
-
-
-
-
-
