@@ -1,8 +1,4 @@
----
-description: Learn how to protect your API endpoint with JSON Web Tokens
----
-
-# Tutorial 3: Securing your REST API
+# Tutorial 3: Securing your REST API with JSON Web Tokens
 
 The endpoints we created in Tutorial 2 are all well and good, but one major issue is that they are exposed publicly. This means that anyone can send a request to your endpoints, and if the request is formatted correctly, our server will send back information. This may be fine for some endpoints where users are only retrieving data, but could cause serious problems for endpoints that add, update, or delete entries from our DB2 Database.
 
@@ -24,20 +20,14 @@ restify-jwt-community will allow us to interact with the JWT in our program in a
 
 In your root director \(the same one that holds your package.json file and node\_modules directory\), create a file called **.env** and add a single line similar to the following \(a key complex enough not to be guessed\):
 
-{% code-tabs %}
-{% code-tabs-item title=".env" %}
 ```text
 SECRET_KEY=jsd$8Rg2d9*&4jk3h341@^f$5
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 This secret key can be accessed through the program by calling "process.env.SECRET\_KEY", and will be used to verify JWT tokens that are sent to our server. The content of the secret key should be complex enough that it cannot be guessed by unsavory character This .env file is a good place to store information you don't want to be made public, **as long as you remove the .env file from being tracked by your source control system** \(e.g. add the file to your .gitignore\). Also, the .env file needs to be in the same directory that you are in when you call 'node restify-server.js', meaning that if you are using the git repo, you should navigate to the 'tutorial3' directory before calling node.
 
 Our application is also getting a little unwieldy, so we are going to take the opportunity to make it more modular. For our restifty server, our primary file will still be **restify-server.js**, a place where we declare our endpoints \(we will define their functionality elsewhere\) and start the server. We will take our code for connecting to the database and put it in its own file, **database.js,** and export the connection so we can use it in all of our other files. Finally, we will group endpoint functions into separate files, in this case **books.js** \(for manipulating our book data\) and **auth.js** \(for authorizing a username and password and retrieving a JWT token\).
 
-{% code-tabs %}
-{% code-tabs-item title="restify-server.js" %}
 ```javascript
 require('dotenv').config();
 
@@ -71,13 +61,9 @@ server.listen(3030, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 restify-server.js sets up our restify server, first by creating a server \(line 13\), then declaring our middleware \(lines 14 and 16\), declaring our REST API endpoints \(lines 23 to 26\), and then launching the server on port 3030 \(line 29\). The newest and most important part for securing our API is telling our server to use restifyJwt, passing in a secret that is used to authenticate passed JWTs. Remember, we defined SECRET\_KEY in our .env file, and here we call it without exposing the actual key value to the outside world \(as long as you followed my instructions and added .env to your .gitignore file\). By using our restifyJwt object as middleware \(excluding our /auth/ endpoint\), we require a JWT to be able to access anything on our server. Note that our routes are declared, with the functions declared in files auth.js and books.js and merely required here. This helps use keep our code modular and clean, instead of declaring everything in one large unmanageable file. Before getting to our auth.js file, it is important to look at our database file, where we create a connection and then export it:
 
-{% code-tabs %}
-{% code-tabs-item title="database.js" %}
 ```javascript
 const idb = require('idb-pconnector');
 
@@ -105,15 +91,11 @@ async function setupDatabase() {
 module.exports.idb = idb;
 module.exports.connection = idbConnection;
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 database.js requires our idb-pconnector package that allows us to interact with the DB2 database on our IBMi. We then open our connection \(line 4\) and eventually export it so it can be used by other files \(line 25\). In between we set up our database for this example by creating two new tables \(BOOKS and USERS\) and adding a single user into USER, with USERNAME = 'Mark' and PASSWORD = 'pass123'. These are the credentials we will later use to log into the API and get a JWT.
 
 In our auth.js file, we declare our logic for distributing a JWT:
 
-{% code-tabs %}
-{% code-tabs-item title="auth.js" %}
 ```javascript
 let idb = require('./database').idb
 let idbConnection = require('./database').connection;
@@ -160,8 +142,6 @@ async function authenticate(username, password) {
 }
 
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 Note that we import our database connection on line 2, allowing use to use the connection we opening in database.js \(in fact, Node.js will export the same copy of a module/object using 'exports' and 'require', allowing us to share this object across multiple files\).
 
@@ -169,8 +149,6 @@ We also define the authorize function, which we use in the declaration of "post.
 
 We also have a books.js, but there isn't much special about it. It simply exposes getBook and postBook functions that are mapped to GET '/books/{id}' and POST '/books/' respectively that allow us to access the BOOKS table we created in database.js. I post it here only for completeness sake, but won't spend the characters to explain like I do for the above files:
 
-{% code-tabs %}
-{% code-tabs-item title="books.js" %}
 ```javascript
 let idb = require('./database').idb
 let idbConnection = require('./database').connection;
@@ -236,13 +214,9 @@ module.exports = {
     }
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 And that's our restify server! We created three endpoints, one which allows the user to log in and obtain a JWT, and two which allow access to our database and require the JWT we obtained. Our API is now secure, and we can test it with a simple restify client:
 
-{% code-tabs %}
-{% code-tabs-item title="restify-client.js" %}
 ```javascript
 var clients = require('restify-clients');
 
@@ -286,12 +260,8 @@ client.post('/auth/', { username: 'Mark', password: 'pass123' }, function(err, r
     });
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 In this simple restify client, we create a JSON client \(line 3\), then post to the '/auth/' endpoint with the username and password that we added to the USERS table when we initialized our database connection. The return object 'obj' contains a field 'token' that contains the JWT token returned from the server. We then attach that token to the  header of our next requests \(lines 19 and 30\). Note that the restify JWT packages we use expect the Header to be in the format "Authoriation": "Jwt \[token\]". We then post a book to the database called "How to Develop Node.js", authored by yours truly \(not really, these tutorials are the closest I've ever gotten!\). If that post was successful, we are returned the id for the new book, which we can then use to call the GET '/books/{id}' endpoint and confirm that our book was added.
-
-![The response, printed from line 37.](.gitbook/assets/image.png)
 
 To run the example, navigate to the tutorial3 directory and run:
 
@@ -304,4 +274,3 @@ You should see output indicating the restify is listening on port 3030. Then, in
 You client should hit your server, and you should get output similar to above.
 
 And with that, we have used Node.js, restify, and JWT and turned our IBM i into a REST server, than can be accessed by a REST client, a program such as Postman, or an in-terminal utility like curl!
-
