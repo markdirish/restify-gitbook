@@ -4,14 +4,18 @@
 
 Of course, what good is creating a RESTful API if you are unable to interact with some sort of data store? Below is an example of a RESTful API created using the **restify** package that can add books to a database, and then can also query that database to see if a user exists. For our database, we are going to use the internal DB2 database on your IBM i machine. In order to easily interface with the database, we will use the **idb-pconnector** package. We are also going to be using the **restify-clients** and **restify-errors** packages. These can be installed by going to the root directory of your Node.js server \(where the **package.json** file resides\) and running these three commands:
 
-`npm install --save idb-pconnector  
+```bash
+npm install --save idb-pconnector  
 npm install --save restify-clients  
-npm install --save restify-errors`
+npm install --save restify-errors
+```
 
 With this package installed, create a new directory called tutorial2 and navigate to it:
 
-`mkdir tutorial2  
-cd tutorial2`
+```bash
+mkdir tutorial2  
+cd tutorial2
+```
 
 In the **tutorial2** directory, we are going to create two files: **tutorial2-server.js** and **tutorial2-client.js**. The code for these files is given below. 
 
